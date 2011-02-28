@@ -8,11 +8,13 @@ find_package(Qt4 COMPONENTS QtCore QtGui)
 include(${QT_USE_FILE})
 
 set(QCONNECTFOUR_HDRS
+	mainwindow.h
 	board.h
 	boardwidget.h)
 
 set(QCONNECTFOUR_SRCS
 	main.cpp
+	mainwindow.cpp
 	board.cpp
 	boardwidget.cpp)
 

@@ -2,7 +2,6 @@
 #define BOARD_WIDGET_H
 
 #include <QWidget>
-#include <QPainter>
 #include <QPaintEvent>
 
 class Board;

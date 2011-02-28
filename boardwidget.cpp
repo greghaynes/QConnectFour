@@ -1,6 +1,8 @@
 #include "boardwidget.h"
 #include "board.h"
 
+#include <QPainter>
+
 BoardWidget::BoardWidget(Board &b, QWidget *parent)
 	: QWidget(parent)
 	, m_board(&b)
