@@ -27,12 +27,14 @@ Board::~Board(void)
 
 Board::SlotState Board::slot(int row, int col) const
 {
+	if(row < 0 || row >= m_rows || col < 0 || col >= m_cols)
+		return Empty;
 	return m_board[row][col];
 }
 
 int Board::setSlot(int row, int col, SlotState val)
 {
-	if(row >= m_rows || col >= m_cols)
+	if(row < 0 || row >= m_rows || col < 0 || col >= m_cols)
 		return false;
 	m_board[row][col] = val;
 	return true;

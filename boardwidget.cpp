@@ -61,13 +61,72 @@ void BoardWidget::mouseReleaseEvent(QMouseEvent *event)
 		if(m_board->slot(i, col) == Board::Empty)
 		{
 			qDebug() << "Placing at " << i << col;
-			m_board->setSlot(i, col, m_player);
+			if(!m_board->setSlot(i, col, m_player))
+				qDebug() << "Invalid Placement";
 			break;
 		}
 	}
 
 	update();
+	checkForWin(i, col);
 	switchPlayer();
+}
+
+void BoardWidget::checkForWin(int move_row, int move_col)
+{
+	int offset, i;
+	qDebug() << "Checking for win" << move_row << move_col;
+	
+	for(offset = 0;offset<4;offset++)
+	{
+		//check vertical
+		for(i = 0;i<4;i++)
+		{
+			if(m_board->slot(move_row+offset-i, move_col) != m_player)
+				break;
+			else if(i == 3)
+			{
+				win();
+				return;
+			}
+		}
+
+		//check pos diag
+		for(i = 0;i<4;i++)
+		{
+			if(m_board->slot(move_row+offset-i, move_col+offset-i) != m_player)
+				break;
+			else if(i == 3)
+			{
+				win();
+				return;
+			}
+		}
+
+		//check neg diag
+		for(i = 0;i<4;i++)
+		{
+			if(m_board->slot(move_row+offset-i, move_col+offset+i) != m_player)
+				break;
+			else if(i == 3)
+			{
+				win();
+				return;
+			}
+		}
+
+		//check horiz
+		for(i = 0;i<4;i++)
+		{
+			if(m_board->slot(move_row, move_col+offset-i) != m_player)
+				break;
+			else if(i == 3)
+			{
+				win();
+				return;
+			}
+		}
+	}
 }
 
 void BoardWidget::switchPlayer(void)
@@ -76,5 +135,10 @@ void BoardWidget::switchPlayer(void)
 		m_player = Board::Player2;
 	else
 		m_player = Board::Player1;
+}
+
+void BoardWidget::win(void)
+{
+	qDebug() << "Win!";
 }
 
