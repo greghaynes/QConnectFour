@@ -25,6 +25,7 @@ class Board
 
 		int rows(void) const;
 		int cols(void) const;
+		void reset(void);
 
 	Q_SIGNALS:
 		void boardChanged(void);

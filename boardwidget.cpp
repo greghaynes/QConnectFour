@@ -1,6 +1,7 @@
 #include "boardwidget.h"
 
 #include <QPainter>
+#include <QMessageBox>
 
 #include <QDebug>
 
@@ -68,11 +69,11 @@ void BoardWidget::mouseReleaseEvent(QMouseEvent *event)
 	}
 
 	update();
-	checkForWin(i, col);
-	switchPlayer();
+	if(!checkForWin(i, col))
+		switchPlayer();
 }
 
-void BoardWidget::checkForWin(int move_row, int move_col)
+bool BoardWidget::checkForWin(int move_row, int move_col)
 {
 	int offset, i;
 	qDebug() << "Checking for win" << move_row << move_col;
@@ -87,7 +88,7 @@ void BoardWidget::checkForWin(int move_row, int move_col)
 			else if(i == 3)
 			{
 				win();
-				return;
+				return true;
 			}
 		}
 
@@ -99,7 +100,7 @@ void BoardWidget::checkForWin(int move_row, int move_col)
 			else if(i == 3)
 			{
 				win();
-				return;
+				return true;
 			}
 		}
 
@@ -111,7 +112,7 @@ void BoardWidget::checkForWin(int move_row, int move_col)
 			else if(i == 3)
 			{
 				win();
-				return;
+				return true;
 			}
 		}
 
@@ -123,10 +124,12 @@ void BoardWidget::checkForWin(int move_row, int move_col)
 			else if(i == 3)
 			{
 				win();
-				return;
+				return true;
 			}
 		}
 	}
+
+	return false;
 }
 
 void BoardWidget::switchPlayer(void)
@@ -139,6 +142,12 @@ void BoardWidget::switchPlayer(void)
 
 void BoardWidget::win(void)
 {
-	qDebug() << "Win!";
+	QString msg;
+	if(m_player == Board::Player1)
+		msg = tr("Player 1 Wins!");
+	else
+		msg = tr("Player 2 Wins!");
+	QMessageBox::information(this, msg, msg);
+	m_board->reset();
 }
 

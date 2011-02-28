@@ -50,3 +50,13 @@ int Board::cols(void) const
 	return m_cols;
 }
 
+void Board::reset(void)
+{
+	int i, j;
+	for(i = 0;i < m_rows;i++)
+	{
+		for(j = 0;j < m_cols;j++)
+			m_board[i][j] = Empty;
+	}
+}
+

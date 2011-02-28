@@ -20,8 +20,9 @@ class BoardWidget
 
 	private:
 		void switchPlayer(void);
-		void checkForWin(int move_row, int move_col);
+		bool checkForWin(int move_row, int move_col);
 		void win(void);
+		void reset(void);
 
 		Board *m_board;
 		Board::SlotState m_player;
