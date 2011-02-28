@@ -1,4 +1,5 @@
 #include "boardwidget.h"
+#include "ai.h"
 
 #include <QPainter>
 #include <QMessageBox>
@@ -9,8 +10,14 @@ BoardWidget::BoardWidget(Board &b, QWidget *parent)
 	: QWidget(parent)
 	, m_board(&b)
 	, m_player(Board::Player1)
+	, m_ai(new Ai(b))
 {
 	b.setParent(this);
+}
+
+BoardWidget::~BoardWidget()
+{
+	delete m_ai;
 }
 
 void BoardWidget::paintEvent(QPaintEvent *event)
@@ -70,63 +77,23 @@ void BoardWidget::mouseReleaseEvent(QMouseEvent *event)
 
 	update();
 	if(!checkForWin(i, col))
+	{
 		switchPlayer();
+		m_ai->move();
+		if(!checkForWin(i, col));
+		{
+			switchPlayer();
+			update();
+		}
+	}
 }
 
 bool BoardWidget::checkForWin(int move_row, int move_col)
 {
-	int offset, i;
-	qDebug() << "Checking for win" << move_row << move_col;
-	
-	for(offset = 0;offset<4;offset++)
+	if(m_board->isWin(move_row, move_col))
 	{
-		//check vertical
-		for(i = 0;i<4;i++)
-		{
-			if(m_board->slot(move_row+offset-i, move_col) != m_player)
-				break;
-			else if(i == 3)
-			{
-				win();
-				return true;
-			}
-		}
-
-		//check pos diag
-		for(i = 0;i<4;i++)
-		{
-			if(m_board->slot(move_row+offset-i, move_col+offset-i) != m_player)
-				break;
-			else if(i == 3)
-			{
-				win();
-				return true;
-			}
-		}
-
-		//check neg diag
-		for(i = 0;i<4;i++)
-		{
-			if(m_board->slot(move_row+offset-i, move_col+offset+i) != m_player)
-				break;
-			else if(i == 3)
-			{
-				win();
-				return true;
-			}
-		}
-
-		//check horiz
-		for(i = 0;i<4;i++)
-		{
-			if(m_board->slot(move_row, move_col+offset-i) != m_player)
-				break;
-			else if(i == 3)
-			{
-				win();
-				return true;
-			}
-		}
+		win();
+		return true;
 	}
 
 	return false;

@@ -13,7 +13,8 @@ class Board
 		{
 			Player1,
 			Player2,
-			Empty
+			Empty,
+			Invalid
 		};
 
 		Board(int rows, int cols, QObject *parent = 0);
@@ -26,6 +27,9 @@ class Board
 		int rows(void) const;
 		int cols(void) const;
 		void reset(void);
+
+		/** Checks if there is a win containing row, col **/
+		bool isWin(int row, int col) const;
 
 	Q_SIGNALS:
 		void boardChanged(void);

@@ -10,13 +10,15 @@ include(${QT_USE_FILE})
 set(QCONNECTFOUR_HDRS
 	mainwindow.h
 	board.h
-	boardwidget.h)
+	boardwidget.h
+	ai.h)
 
 set(QCONNECTFOUR_SRCS
 	main.cpp
 	mainwindow.cpp
 	board.cpp
-	boardwidget.cpp)
+	boardwidget.cpp
+	ai.cpp)
 
 QT4_AUTOMOC(${QCONNECTFOUR_SRCS})
 

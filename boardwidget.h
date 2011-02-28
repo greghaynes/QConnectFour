@@ -7,12 +7,15 @@
 
 #include "board.h"
 
+class Ai;
+
 class BoardWidget
 	: public QWidget
 {
 
 	public:
 		BoardWidget(Board &b, QWidget *parent = 0);
+		~BoardWidget();
 
 	protected:
 		void paintEvent(QPaintEvent *event);
@@ -25,6 +28,7 @@ class BoardWidget
 		void reset(void);
 
 		Board *m_board;
+		Ai *m_ai;
 		Board::SlotState m_player;
 
 };

@@ -28,7 +28,7 @@ Board::~Board(void)
 Board::SlotState Board::slot(int row, int col) const
 {
 	if(row < 0 || row >= m_rows || col < 0 || col >= m_cols)
-		return Empty;
+		return Invalid;
 	return m_board[row][col];
 }
 
@@ -58,5 +58,52 @@ void Board::reset(void)
 		for(j = 0;j < m_cols;j++)
 			m_board[i][j] = Empty;
 	}
+}
+
+bool Board::isWin(int move_row, int move_col) const
+{
+	int offset, i;
+	SlotState m_player = slot(move_row, move_col);
+	
+	for(offset = 0;offset<4;offset++)
+	{
+		//check vertical
+		for(i = 0;i<4;i++)
+		{
+			if(slot(move_row+offset-i, move_col) != m_player)
+				break;
+			else if(i == 3)
+				return true;
+		}
+
+		//check pos diag
+		for(i = 0;i<4;i++)
+		{
+			if(slot(move_row+offset-i, move_col+offset-i) != m_player)
+				break;
+			else if(i == 3)
+				return true;
+		}
+
+		//check neg diag
+		for(i = 0;i<4;i++)
+		{
+			if(slot(move_row+offset-i, move_col+offset+i) != m_player)
+				break;
+			else if(i == 3)
+				return true;
+		}
+
+		//check horiz
+		for(i = 0;i<4;i++)
+		{
+			if(slot(move_row, move_col+offset-i) != m_player)
+				break;
+			else if(i == 3)
+				return true;
+		}
+	}
+
+	return false;
 }
 
