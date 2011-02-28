@@ -25,11 +25,11 @@ void BoardWidget::paintEvent(QPaintEvent *event)
 		painter.drawLine(0, rowHeight*i, width(), rowHeight*i);
 
 	// Draw pieces
-	for(i = 0;i<m_board->rows();i++)
+	for(i = 1;i<=m_board->rows();i++)
 	{
 		for(j = 0;j<m_board->cols();j++)
 		{
-			switch(m_board->slot(i, j))
+			switch(m_board->slot(i-1, j))
 			{
 			case Board::Player1:
 				painter.setBrush(QBrush(Qt::red));
@@ -41,7 +41,7 @@ void BoardWidget::paintEvent(QPaintEvent *event)
 				painter.setBrush(QBrush(Qt::white));
 			}
 
-			painter.drawEllipse(j*colWidth, i*rowHeight, colWidth, rowHeight);
+			painter.drawEllipse(j*colWidth, height()-(i*rowHeight), colWidth, rowHeight);
 		}
 	}
 }
