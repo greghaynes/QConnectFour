@@ -1,11 +1,13 @@
 #include "boardwidget.h"
-#include "board.h"
 
 #include <QPainter>
+
+#include <QDebug>
 
 BoardWidget::BoardWidget(Board &b, QWidget *parent)
 	: QWidget(parent)
 	, m_board(&b)
+	, m_player(Board::Player1)
 {
 	b.setParent(this);
 }
@@ -46,5 +48,33 @@ void BoardWidget::paintEvent(QPaintEvent *event)
 			painter.drawEllipse(j*colWidth, height()-(i*rowHeight), colWidth, rowHeight);
 		}
 	}
+}
+
+void BoardWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+	int colWidth = width() / m_board->cols();
+	int col = event->x() / colWidth;
+	int i;
+
+	for(i = 0;i<m_board->rows();i++)
+	{
+		if(m_board->slot(i, col) == Board::Empty)
+		{
+			qDebug() << "Placing at " << i << col;
+			m_board->setSlot(i, col, m_player);
+			break;
+		}
+	}
+
+	update();
+	switchPlayer();
+}
+
+void BoardWidget::switchPlayer(void)
+{
+	if(m_player == Board::Player1)
+		m_player = Board::Player2;
+	else
+		m_player = Board::Player1;
 }
 

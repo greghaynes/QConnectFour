@@ -2,9 +2,10 @@
 #define BOARD_WIDGET_H
 
 #include <QWidget>
+#include <QMouseEvent>
 #include <QPaintEvent>
 
-class Board;
+#include "board.h"
 
 class BoardWidget
 	: public QWidget
@@ -15,9 +16,13 @@ class BoardWidget
 
 	protected:
 		void paintEvent(QPaintEvent *event);
+		void mouseReleaseEvent(QMouseEvent *event);
 
 	private:
+		void switchPlayer(void);
+
 		Board *m_board;
+		Board::SlotState m_player;
 
 };
 
