@@ -16,12 +16,15 @@ class Board
 			Empty
 		};
 
-		Board(int rows, int cols);
+		Board(int rows, int cols, QObject *parent = 0);
 		~Board(void);
 
 		SlotState slot(int row, int col) const;
 		/** Returns true on success, false on error **/
 		int setSlot(int row, int col, SlotState val);
+
+		int rows(void) const;
+		int cols(void) const;
 
 	Q_SIGNALS:
 		void boardChanged(void);

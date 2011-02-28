@@ -2,14 +2,19 @@
 
 #include "board.moc"
 
-Board::Board(int rows, int cols)
-	: m_rows(rows)
+Board::Board(int rows, int cols, QObject *parent)
+	: QObject(parent)
+	, m_rows(rows)
 	, m_cols(cols)
 {
 	m_board = new SlotState*[rows];
-	int i;
+	int i, j;
 	for(i = 0;i < rows;i++)
+	{
 		m_board[i] = new SlotState[cols];
+		for(j = 0;j < cols;j++)
+			m_board[i][j] = Empty;
+	}
 }
 
 Board::~Board(void)
@@ -31,5 +36,15 @@ int Board::setSlot(int row, int col, SlotState val)
 		return false;
 	m_board[row][col] = val;
 	return true;
+}
+
+int Board::rows(void) const
+{
+	return m_rows;
+}
+
+int Board::cols(void) const
+{
+	return m_cols;
 }
 
