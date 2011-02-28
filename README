@@ -1,0 +1,9 @@
+QConnectFour
+------------
+
+To build:
+	Install cmake, qt4
+	Run the commands:
+		cmake .
+		make
+		./qconnectfour
